@@ -17,6 +17,8 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.System.Threading;
 using Windows.UI.Core;
+using Sonos.Client;
+using SmartHomeController.Server;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -36,9 +38,18 @@ namespace SmartHomeController
         {
             base.OnNavigatedTo(e);
 
+            HttpServer server = new HttpServer();
+            IAsyncAction asyncAction = Windows.System.Threading.ThreadPool.RunAsync(
+                (workItem) =>
+                {
+                    // We can pass our AppServiceConnection instance to the WebServer to
+                    // allow it to participate in the app-to-app communication
+                    //server.StartServer(55555);
+                });
+
             try
             {
-                SonosLocalClient.SonosClient sonosClient = new SonosLocalClient.SonosClient();
+                SonosClient sonosClient = new SonosClient(AppSettings.Instance.SonosIP);
 
                 TimeSpan period = TimeSpan.FromMilliseconds(300);
 

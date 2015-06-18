@@ -7,11 +7,11 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="9ca75988-a132-458d-877e-bb9b1214badf"
+    Name="5fa546ce-0de7-4aaf-95b5-efe75905cdda"
     Publisher="CN=Sebastian"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="9ca75988-a132-458d-877e-bb9b1214badf" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="5fa546ce-0de7-4aaf-95b5-efe75905cdda" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>SmartHomeController</DisplayName>
