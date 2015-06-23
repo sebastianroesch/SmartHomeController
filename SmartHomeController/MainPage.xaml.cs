@@ -104,80 +104,40 @@ namespace SmartHomeController
 
                 var t = await sonosClient.Subscribe(localIpAddress, localPort);
 
-                TimeSpan debugPeriod = TimeSpan.FromMilliseconds(5000);
-                ThreadPoolTimer DebugTimer = ThreadPoolTimer.CreatePeriodicTimer(async (source) =>
-                {
-                    await Dispatcher.RunAsync(CoreDispatcherPriority.High,
-                        async () =>
-                        {
-                            //await sonosClient.ParseNotification("<e:propertyset xmlns:e=\"urn:schemas-upnp-org:event-1-0\"><e:property><LastChange>&lt;Event xmlns=&quot;urn:schemas-upnp-org:metadata-1-0/AVT/&quot; xmlns:r=&quot;urn:schemas-rinconnetworks-com:metadata-1-0/&quot;&gt;&lt;InstanceID val=&quot;0&quot;&gt;&lt;TransportState val=&quot;PLAYING&quot;/&gt;&lt;CurrentPlayMode val=&quot;NORMAL&quot;/&gt;&lt;CurrentCrossfadeMode val=&quot;0&quot;/&gt;&lt;NumberOfTracks val=&quot;43&quot;/&gt;&lt;CurrentTrack val=&quot;43&quot;/&gt;&lt;CurrentSection val=&quot;0&quot;/&gt;&lt;CurrentTrackURI val=&quot;x-sonos-spotify:spotify%3atrack%3a41Fflg7qHiVOD6dEPvsCzO?sid=9&amp;amp;flags=32&amp;amp;sn=2&quot;/&gt;&lt;CurrentTrackDuration val=&quot;0:03:45&quot;/&gt;&lt;CurrentTrackMetaData val=&quot;&amp;lt;DIDL-Lite xmlns:dc=&amp;quot;http://purl.org/dc/elements/1.1/&amp;quot; xmlns:upnp=&amp;quot;urn:schemas-upnp-org:metadata-1-0/upnp/&amp;quot; xmlns:r=&amp;quot;urn:schemas-rinconnetworks-com:metadata-1-0/&amp;quot; xmlns=&amp;quot;urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/&amp;quot;&amp;gt;&amp;lt;item id=&amp;quot;-1&amp;quot; parentID=&amp;quot;-1&amp;quot; restricted=&amp;quot;true&amp;quot;&amp;gt;&amp;lt;res protocolInfo=&amp;quot;sonos.com-spotify:*:audio/x-spotify:*&amp;quot; duration=&amp;quot;0:03:45&amp;quot;&amp;gt;x-sonos-spotify:spotify%3atrack%3a41Fflg7qHiVOD6dEPvsCzO?sid=9&amp;amp;amp;flags=32&amp;amp;amp;sn=2&amp;lt;/res&amp;gt;&amp;lt;r:streamContent&amp;gt;&amp;lt;/r:streamContent&amp;gt;&amp;lt;r:radioShowMd&amp;gt;&amp;lt;/r:radioShowMd&amp;gt;&amp;lt;upnp:albumArtURI&amp;gt;/getaa?s=1&amp;amp;amp;u=x-sonos-spotify%3aspotify%253atrack%253a41Fflg7qHiVOD6dEPvsCzO%3fsid%3d9%26flags%3d32%26sn%3d2&amp;lt;/upnp:albumArtURI&amp;gt;&amp;lt;dc:title&amp;gt;Worth It&amp;lt;/dc:title&amp;gt;&amp;lt;upnp:class&amp;gt;object.item.audioItem.musicTrack&amp;lt;/upnp:class&amp;gt;&amp;lt;dc:creator&amp;gt;Fifth Harmony&amp;lt;/dc:creator&amp;gt;&amp;lt;upnp:album&amp;gt;Reflection (Deluxe)&amp;lt;/upnp:album&amp;gt;&amp;lt;/item&amp;gt;&amp;lt;/DIDL-Lite&amp;gt;&quot;/&gt;&lt;r:NextTrackURI val=&quot;&quot;/&gt;&lt;r:NextTrackMetaData val=&quot;&quot;/&gt;&lt;r:EnqueuedTransportURI val=&quot;file:///jffs/settings/trackqueue.rsq#0&quot;/&gt;&lt;r:EnqueuedTransportURIMetaData val=&quot;&quot;/&gt;&lt;PlaybackStorageMedium val=&quot;NETWORK&quot;/&gt;&lt;AVTransportURI val=&quot;x-rincon-queue:RINCON_B8E937EABEFA01400#0&quot;/&gt;&lt;AVTransportURIMetaData val=&quot;&quot;/&gt;&lt;NextAVTransportURI val=&quot;&quot;/&gt;&lt;NextAVTransportURIMetaData val=&quot;&quot;/&gt;&lt;CurrentTransportActions val=&quot;Set, Play, Stop, Pause, Seek, Next, Previous&quot;/&gt;&lt;r:CurrentValidPlayModes val=&quot;SHUFFLE, REPEAT, CROSSFADE&quot;/&gt;&lt;TransportStatus val=&quot;OK&quot;/&gt;&lt;r:SleepTimerGeneration val=&quot;0&quot;/&gt;&lt;r:AlarmRunning val=&quot;0&quot;/&gt;&lt;r:SnoozeRunning val=&quot;0&quot;/&gt;&lt;r:RestartPending val=&quot;0&quot;/&gt;&lt;TransportPlaySpeed val=&quot;NOT_IMPLEMENTED&quot;/&gt;&lt;CurrentMediaDuration val=&quot;NOT_IMPLEMENTED&quot;/&gt;&lt;RecordStorageMedium val=&quot;NOT_IMPLEMENTED&quot;/&gt;&lt;PossiblePlaybackStorageMedia val=&quot;NONE, NETWORK&quot;/&gt;&lt;PossibleRecordStorageMedia val=&quot;NOT_IMPLEMENTED&quot;/&gt;&lt;RecordMediumWriteStatus val=&quot;NOT_IMPLEMENTED&quot;/&gt;&lt;CurrentRecordQualityMode val=&quot;NOT_IMPLEMENTED&quot;/&gt;&lt;PossibleRecordQualityModes val=&quot;NOT_IMPLEMENTED&quot;/&gt;&lt;/InstanceID&gt;&lt;/Event&gt;</LastChange></e:property></e:propertyset>");
-                        });
-                }, debugPeriod);
+#if DEBUG
+                //TimeSpan debugPeriod = TimeSpan.FromMilliseconds(5000);
+                //ThreadPoolTimer DebugTimer = ThreadPoolTimer.CreatePeriodicTimer(async (source) =>
+                //{
+                //    await Dispatcher.RunAsync(CoreDispatcherPriority.High,
+                //        async () =>
+                //        {
+                //            //await sonosClient.ParseNotification("<e:propertyset xmlns:e=\"urn:schemas-upnp-org:event-1-0\"><e:property><LastChange>&lt;Event xmlns=&quot;urn:schemas-upnp-org:metadata-1-0/AVT/&quot; xmlns:r=&quot;urn:schemas-rinconnetworks-com:metadata-1-0/&quot;&gt;&lt;InstanceID val=&quot;0&quot;&gt;&lt;TransportState val=&quot;PLAYING&quot;/&gt;&lt;CurrentPlayMode val=&quot;NORMAL&quot;/&gt;&lt;CurrentCrossfadeMode val=&quot;0&quot;/&gt;&lt;NumberOfTracks val=&quot;43&quot;/&gt;&lt;CurrentTrack val=&quot;43&quot;/&gt;&lt;CurrentSection val=&quot;0&quot;/&gt;&lt;CurrentTrackURI val=&quot;x-sonos-spotify:spotify%3atrack%3a41Fflg7qHiVOD6dEPvsCzO?sid=9&amp;amp;flags=32&amp;amp;sn=2&quot;/&gt;&lt;CurrentTrackDuration val=&quot;0:03:45&quot;/&gt;&lt;CurrentTrackMetaData val=&quot;&amp;lt;DIDL-Lite xmlns:dc=&amp;quot;http://purl.org/dc/elements/1.1/&amp;quot; xmlns:upnp=&amp;quot;urn:schemas-upnp-org:metadata-1-0/upnp/&amp;quot; xmlns:r=&amp;quot;urn:schemas-rinconnetworks-com:metadata-1-0/&amp;quot; xmlns=&amp;quot;urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/&amp;quot;&amp;gt;&amp;lt;item id=&amp;quot;-1&amp;quot; parentID=&amp;quot;-1&amp;quot; restricted=&amp;quot;true&amp;quot;&amp;gt;&amp;lt;res protocolInfo=&amp;quot;sonos.com-spotify:*:audio/x-spotify:*&amp;quot; duration=&amp;quot;0:03:45&amp;quot;&amp;gt;x-sonos-spotify:spotify%3atrack%3a41Fflg7qHiVOD6dEPvsCzO?sid=9&amp;amp;amp;flags=32&amp;amp;amp;sn=2&amp;lt;/res&amp;gt;&amp;lt;r:streamContent&amp;gt;&amp;lt;/r:streamContent&amp;gt;&amp;lt;r:radioShowMd&amp;gt;&amp;lt;/r:radioShowMd&amp;gt;&amp;lt;upnp:albumArtURI&amp;gt;/getaa?s=1&amp;amp;amp;u=x-sonos-spotify%3aspotify%253atrack%253a41Fflg7qHiVOD6dEPvsCzO%3fsid%3d9%26flags%3d32%26sn%3d2&amp;lt;/upnp:albumArtURI&amp;gt;&amp;lt;dc:title&amp;gt;Worth It&amp;lt;/dc:title&amp;gt;&amp;lt;upnp:class&amp;gt;object.item.audioItem.musicTrack&amp;lt;/upnp:class&amp;gt;&amp;lt;dc:creator&amp;gt;Fifth Harmony&amp;lt;/dc:creator&amp;gt;&amp;lt;upnp:album&amp;gt;Reflection (Deluxe)&amp;lt;/upnp:album&amp;gt;&amp;lt;/item&amp;gt;&amp;lt;/DIDL-Lite&amp;gt;&quot;/&gt;&lt;r:NextTrackURI val=&quot;&quot;/&gt;&lt;r:NextTrackMetaData val=&quot;&quot;/&gt;&lt;r:EnqueuedTransportURI val=&quot;file:///jffs/settings/trackqueue.rsq#0&quot;/&gt;&lt;r:EnqueuedTransportURIMetaData val=&quot;&quot;/&gt;&lt;PlaybackStorageMedium val=&quot;NETWORK&quot;/&gt;&lt;AVTransportURI val=&quot;x-rincon-queue:RINCON_B8E937EABEFA01400#0&quot;/&gt;&lt;AVTransportURIMetaData val=&quot;&quot;/&gt;&lt;NextAVTransportURI val=&quot;&quot;/&gt;&lt;NextAVTransportURIMetaData val=&quot;&quot;/&gt;&lt;CurrentTransportActions val=&quot;Set, Play, Stop, Pause, Seek, Next, Previous&quot;/&gt;&lt;r:CurrentValidPlayModes val=&quot;SHUFFLE, REPEAT, CROSSFADE&quot;/&gt;&lt;TransportStatus val=&quot;OK&quot;/&gt;&lt;r:SleepTimerGeneration val=&quot;0&quot;/&gt;&lt;r:AlarmRunning val=&quot;0&quot;/&gt;&lt;r:SnoozeRunning val=&quot;0&quot;/&gt;&lt;r:RestartPending val=&quot;0&quot;/&gt;&lt;TransportPlaySpeed val=&quot;NOT_IMPLEMENTED&quot;/&gt;&lt;CurrentMediaDuration val=&quot;NOT_IMPLEMENTED&quot;/&gt;&lt;RecordStorageMedium val=&quot;NOT_IMPLEMENTED&quot;/&gt;&lt;PossiblePlaybackStorageMedia val=&quot;NONE, NETWORK&quot;/&gt;&lt;PossibleRecordStorageMedia val=&quot;NOT_IMPLEMENTED&quot;/&gt;&lt;RecordMediumWriteStatus val=&quot;NOT_IMPLEMENTED&quot;/&gt;&lt;CurrentRecordQualityMode val=&quot;NOT_IMPLEMENTED&quot;/&gt;&lt;PossibleRecordQualityModes val=&quot;NOT_IMPLEMENTED&quot;/&gt;&lt;/InstanceID&gt;&lt;/Event&gt;</LastChange></e:property></e:propertyset>");
+                //        });
+                //}, debugPeriod);
+#endif
 
                 TimeSpan period = TimeSpan.FromMilliseconds(100);
                 ThreadPoolTimer PeriodicTimer = ThreadPoolTimer.CreatePeriodicTimer(async (source) =>
                 {
-                    await
+                    // Update the UI thread by using the UI core dispatcher.
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.High,
+                        () =>
+                        {
+                            if (!Paused)
+                            {
+                                if (!LastTimerRunTime.HasValue)
+                                    LastTimerRunTime = DateTime.UtcNow;
 
-                                        //var playing = await sonosClient.IsPlaying();
-                                        //var volume = await sonosClient.GetVolume();
-                                        // 
-                                        // Update the UI thread by using the UI core dispatcher.
-                                        // 
-                                        Dispatcher.RunAsync(CoreDispatcherPriority.High,
-                                            () =>
-                                            {
-                                                if (!Paused)
-                                                {
-                                                    if (!LastTimerRunTime.HasValue)
-                                                        LastTimerRunTime = DateTime.UtcNow;
-
-                                                    if (ElapsedTrackTime != null && TotalTrackTime != null && LastTimerRunTime != null)
-                                                    {
-                                                        ElapsedTrackTime += DateTime.UtcNow - LastTimerRunTime.Value;
-
-                                                        double percentage = ElapsedTrackTime.TotalMilliseconds / TotalTrackTime.TotalMilliseconds;
-
-                                                        TrackProgress.Value = percentage * 100;
-
-                                                        LastTimerRunTime = DateTime.UtcNow;
-                                                    }
-                                                }
-
-
-                                                // 
-                                                // UI components can be accessed within this scope.
-                                                // 
-
-                                                //VolumeValue.Text = volume + "";
-                                                //PlayingValue.Text = playing ? "PLAYING" : "PAUSED";
-
-                                            });
-                },
-                    period,
-                    async (source) =>
-                    {
-                        // 
-                        // TODO: Handle periodic timer cancellation.
-                        // 
-
-                        // 
-                        // Update the UI thread by using the UI core dispatcher.
-                        // 
-                        await Dispatcher.RunAsync(CoreDispatcherPriority.High,
-                            async () =>
-                                            {
-                                                // 
-                                                // UI components can be accessed within this scope.
-                                                //                 
-
-                                                // Periodic timer cancelled.
-
-                                            });
-                    }
-            );
-
-
+                                if (ElapsedTrackTime != null && TotalTrackTime != null && LastTimerRunTime != null)
+                                {
+                                    ElapsedTrackTime += DateTime.UtcNow - LastTimerRunTime.Value;
+                                    double percentage = ElapsedTrackTime.TotalMilliseconds / TotalTrackTime.TotalMilliseconds;
+                                    TrackProgress.Value = percentage * 100;
+                                    LastTimerRunTime = DateTime.UtcNow;
+                                }
+                            }
+                        });
+                }, period);
 
             }
             catch (Exception ex)
@@ -192,80 +152,104 @@ namespace SmartHomeController
         private string CurrentTrackUri;
         private bool Paused = true;
 
-        private void SonosClient_NotificationEvent(object sender, Event e)
+        private async void SonosClient_NotificationEvent(object sender, Event e)
         {
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            Dispatcher.RunAsync(CoreDispatcherPriority.High,
+            await Dispatcher.RunAsync(CoreDispatcherPriority.High,
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                                           () =>
-                                           {
-                                               try
-                                               {
+                async () =>
+                {
+                    try
+                    {
+                        try
+                        {
+                            PositionInfoResponse positionInfo = await sonosClient.GetPositionInfo();
+                            ElapsedTrackTime = positionInfo.ElapsedTime;
+                            double percentage = ElapsedTrackTime.TotalMilliseconds / TotalTrackTime.TotalMilliseconds;
+                            TrackProgress.Value = percentage * 100;
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine(ex.Message);
+                        }
 
+                        if (e != null && e.InstanceID != null)
+                        {
 
-                                                   if (CurrentTrackUri != e.InstanceID.CurrentTrackURI.Val)
-                                                   {
-                                                       //TrackStartedTime = DateTime.UtcNow;
-                                                       ElapsedTrackTime = new TimeSpan();
-                                                       LastTimerRunTime = DateTime.UtcNow;
-                                                       TrackProgress.Value = 0;
-                                                   }
+                            if (e.InstanceID.CurrentTrackURI != null)
+                            {
+                                if (CurrentTrackUri != e.InstanceID.CurrentTrackURI.Val)
+                                {
+                                    ElapsedTrackTime = new TimeSpan();
+                                    LastTimerRunTime = DateTime.UtcNow;
+                                    TrackProgress.Value = 0;
+                                }
+                                CurrentTrackUri = e.InstanceID.CurrentTrackURI.Val;
+                            }
 
-                                                   CurrentTrackUri = e.InstanceID.CurrentTrackURI.Val;
-                                                   TotalTrackTime = e.InstanceID.CurrentTrackDuration.Duration;
+                            if (e.InstanceID.CurrentTrackDuration != null)
+                                TotalTrackTime = e.InstanceID.CurrentTrackDuration.Duration;
 
-                                                   PlayingValue.Text = e.InstanceID.TransportState.Val;
-                                                   TrackName.Text = e.InstanceID.CurrentTrackMetaData.TrackMeta.Item.Title;
-                                                   ArtistName.Text = e.InstanceID.CurrentTrackMetaData.TrackMeta.Item.Creator;
+                            if (e.InstanceID.TransportState != null)
+                                PlayingValue.Text = e.InstanceID.TransportState.Val;
 
-                                                   var currentImageUri = string.Format("http://{0}:1400{1}", AppSettings.Instance.SonosIP, WebUtility.UrlDecode(e.InstanceID.CurrentTrackMetaData.TrackMeta.Item.AlbumArtURIClean));
-                                                   var nextImageUri = string.Format("http://{0}:1400{1}", AppSettings.Instance.SonosIP, WebUtility.UrlDecode(e.InstanceID.NextTrackMetaData.TrackMeta.Item.AlbumArtURIClean));
-                                                   var coverimagesrc = (CoverImage.Source as BitmapImage).UriSource.ToString();
-                                                   var nextimagesrc = "";
-                                                   if(NextCoverImage.Source != null)
-                                                       nextimagesrc = (NextCoverImage.Source as BitmapImage).UriSource.ToString();
-                                                   var prevcoverimagesrc = "";
-                                                   if (PrevCoverImage.Source != null)
-                                                   {
-                                                       prevcoverimagesrc = (PrevCoverImage.Source as BitmapImage).UriSource.ToString();
-                                                   }
+                            // Current and previous album cover
+                            if (e.InstanceID.CurrentTrackMetaData != null && e.InstanceID.CurrentTrackMetaData.TrackMeta != null && e.InstanceID.CurrentTrackMetaData.TrackMeta.Item != null)
+                            {
+                                TrackName.Text = e.InstanceID.CurrentTrackMetaData.TrackMeta.Item.Title;
+                                ArtistName.Text = e.InstanceID.CurrentTrackMetaData.TrackMeta.Item.Creator;
 
+                                var currentCoverImageUri = string.Format("http://{0}:1400{1}", AppSettings.Instance.SonosIP, WebUtility.UrlDecode(e.InstanceID.CurrentTrackMetaData.TrackMeta.Item.AlbumArtURIClean));
+                                var currentCoverImageSrc = (CoverImage.Source as BitmapImage).UriSource.ToString();
+                                var prevcoverimagesrc = "";
+                                if (PrevCoverImage.Source != null)
+                                    prevcoverimagesrc = (PrevCoverImage.Source as BitmapImage).UriSource.ToString();
 
-                                                   if (coverimagesrc != currentImageUri)
-                                                   {
-                                                       if (coverimagesrc == "ms-appx:///Assets/Icons/Music.png")
-                                                           PrevCoverImage.Source = null;
-                                                       else
-                                                           PrevCoverImage.Source = CoverImage.Source;
+                                if (currentCoverImageSrc != currentCoverImageUri)
+                                {
+                                    if (currentCoverImageSrc == "ms-appx:///Assets/Icons/Music.png")
+                                        PrevCoverImage.Source = null;
+                                    else
+                                        PrevCoverImage.Source = CoverImage.Source;
 
-                                                       CoverImage.Source = new BitmapImage(new Uri(currentImageUri, UriKind.Absolute));
-                                                   }
-                                                   if (nextimagesrc != nextImageUri)
-                                                   {
-                                                       NextCoverImage.Source = new BitmapImage(new Uri(nextImageUri, UriKind.Absolute));
-                                                   }
+                                    CoverImage.Source = new BitmapImage(new Uri(currentCoverImageUri, UriKind.Absolute));
+                                }
+                            }
 
+                            // Next album cover
+                            if (e.InstanceID.NextTrackMetaData != null && e.InstanceID.NextTrackMetaData.TrackMeta != null && e.InstanceID.NextTrackMetaData.TrackMeta.Item != null)
+                            {
+                                var nextCoverImageUri = string.Format("http://{0}:1400{1}", AppSettings.Instance.SonosIP, WebUtility.UrlDecode(e.InstanceID.NextTrackMetaData.TrackMeta.Item.AlbumArtURIClean));
 
-                                                   if (e.InstanceID.TransportState.Playing)
-                                                   {
-                                                       ImageBrush background = new ImageBrush();
-                                                       background.ImageSource = new BitmapImage(new Uri(@"ms-appx:///Assets/Icons/Pause.png", UriKind.Absolute));
-                                                       PlayButton.Background = background;
-                                                       Paused = false;
-                                                   }
-                                                   else
-                                                   {
-                                                       ImageBrush background = new ImageBrush();
-                                                       background.ImageSource = new BitmapImage(new Uri(@"ms-appx:///Assets/Icons/Play.png", UriKind.Absolute));
-                                                       PlayButton.Background = background;
-                                                       Paused = true;
-                                                   }
-                                               }
-                                               catch (Exception ex)
-                                               {
-                                                   Debug.WriteLine(ex.Message);
-                                               }
-                                           });
+                                var nextCoverImageSrc = "";
+                                if (NextCoverImage.Source != null)
+                                    nextCoverImageSrc = (NextCoverImage.Source as BitmapImage).UriSource.ToString();
+
+                                if (nextCoverImageSrc != nextCoverImageUri)
+                                    NextCoverImage.Source = new BitmapImage(new Uri(nextCoverImageUri, UriKind.Absolute));
+                            }
+
+                            if (e.InstanceID.TransportState != null && e.InstanceID.TransportState.Playing)
+                            {
+                                ImageBrush background = new ImageBrush();
+                                background.ImageSource = new BitmapImage(new Uri(@"ms-appx:///Assets/Icons/Pause.png", UriKind.Absolute));
+                                PlayButton.Background = background;
+                                Paused = false;
+                            }
+                            else
+                            {
+                                ImageBrush background = new ImageBrush();
+                                background.ImageSource = new BitmapImage(new Uri(@"ms-appx:///Assets/Icons/Play.png", UriKind.Absolute));
+                                PlayButton.Background = background;
+                                Paused = true;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                    }
+                });
         }
 
         private async void PrevButton_Click(object sender, RoutedEventArgs e)
