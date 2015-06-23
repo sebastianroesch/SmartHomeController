@@ -131,8 +131,11 @@ namespace SmartHomeController
                                 if (ElapsedTrackTime != null && TotalTrackTime != null && LastTimerRunTime != null)
                                 {
                                     ElapsedTrackTime += DateTime.UtcNow - LastTimerRunTime.Value;
-                                    double percentage = ElapsedTrackTime.TotalMilliseconds / TotalTrackTime.TotalMilliseconds;
-                                    TrackProgress.Value = percentage * 100;
+                                    if (TotalTrackTime.TotalMilliseconds > 0)
+                                    {
+                                        double percentage = ElapsedTrackTime.TotalMilliseconds / TotalTrackTime.TotalMilliseconds;
+                                        TrackProgress.Value = percentage * 100;
+                                    }
                                     LastTimerRunTime = DateTime.UtcNow;
                                 }
                             }
@@ -151,6 +154,7 @@ namespace SmartHomeController
         private TimeSpan ElapsedTrackTime;
         private string CurrentTrackUri;
         private bool Paused = true;
+        private bool Muted = false;
 
         private async void SonosClient_NotificationEvent(object sender, Event e)
         {
@@ -189,9 +193,6 @@ namespace SmartHomeController
 
                             if (e.InstanceID.CurrentTrackDuration != null)
                                 TotalTrackTime = e.InstanceID.CurrentTrackDuration.Duration;
-
-                            if (e.InstanceID.TransportState != null)
-                                PlayingValue.Text = e.InstanceID.TransportState.Val;
 
                             // Current and previous album cover
                             if (e.InstanceID.CurrentTrackMetaData != null && e.InstanceID.CurrentTrackMetaData.TrackMeta != null && e.InstanceID.CurrentTrackMetaData.TrackMeta.Item != null)
@@ -288,6 +289,21 @@ namespace SmartHomeController
                 ElapsedTrackTime = new TimeSpan();
                 LastTimerRunTime = DateTime.UtcNow;
             }
+        }
+
+        private void VolumeButton_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void VolumeButton_Holding(object sender, HoldingRoutedEventArgs e)
+        {
+            VolumePopup.Visibility = Visibility.Visible;
+        }
+
+        private async void VolumeSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            if (e.NewValue < 40)
+                await sonosClient.SetVolume((int)e.NewValue);
         }
     }
 }

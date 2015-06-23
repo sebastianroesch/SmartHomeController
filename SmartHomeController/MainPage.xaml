@@ -15,11 +15,6 @@
         <Grid.Background>
             <ImageBrush Stretch="UniformToFill" ImageSource="Assets/wallpaper3.jpg"/>
         </Grid.Background>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock x:Name="VolumeTextBlock" TextWrapping="Wrap" Text="Volume" Foreground="White" TextAlignment="Center" FontSize="{ThemeResource TextStyleExtraLargeFontSize}"/>
-            <TextBlock x:Name="VolumeValue" TextWrapping="Wrap" Text="27" Foreground="White" TextAlignment="Center" FontSize="{ThemeResource TextStyleExtraLargeFontSize}"/>
-            <TextBlock x:Name="PlayingValue" TextWrapping="Wrap" Text="PLAYING" Foreground="White" TextAlignment="Center" FontSize="{ThemeResource TextStyleExtraLargeFontSize}"/>
-        </StackPanel>
         <StackPanel Grid.Column="1" Margin="50" VerticalAlignment="Center">
             <Grid>
                 <Image x:Name="NextCoverImage" Width="350" Stretch="UniformToFill" HorizontalAlignment="Right" Margin="0,10,10,40" d:LayoutOverrides="TopPosition, BottomPosition" Height="350"/>
@@ -40,26 +35,43 @@
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Rectangle Fill="#33FFFFFF" Margin="20"/>
-                <Button x:Name="PrevButton" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="60" Height="60" Margin="20,0" Click="PrevButton_Click">
+                <Button x:Name="MuteButton" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="60" Height="60" Margin="20">
+                    <Button.Background>
+                        <ImageBrush Stretch="Fill" ImageSource="Assets/Icons/Volume-Mute.png"/>
+                    </Button.Background>
+                </Button>
+                <Rectangle Fill="#33FFFFFF" Margin="20" Grid.Column="1"/>
+                <Button x:Name="PrevButton" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="60" Height="60" Margin="20,0" Click="PrevButton_Click" Grid.Column="1">
                     <Button.Background>
                         <ImageBrush Stretch="Fill" ImageSource="Assets/Icons/Previous.png"/>
                     </Button.Background>
                 </Button>
-                <Rectangle Fill="#33FFFFFF" Margin="20" Grid.Column="1"/>
-                <Button x:Name="PlayButton" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" Width="60" Height="60" Margin="20,0" Click="PlayButton_Click" Foreground="White">
+                <Rectangle Fill="#33FFFFFF" Margin="20" Grid.Column="2"/>
+                <Button x:Name="PlayButton" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2" Width="60" Height="60" Margin="20,0" Click="PlayButton_Click" Foreground="White">
                     <Button.Background>
                         <ImageBrush Stretch="Fill" ImageSource="Assets/Icons/Play.png"/>
                     </Button.Background>
                 </Button>
-                <Rectangle Fill="#33FFFFFF" Margin="20" Grid.Column="2"/>
-                <Button x:Name="NextButton" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2" Width="60" Height="60" Margin="20,0" Click="NextButton_Click">
+                <Rectangle Fill="#33FFFFFF" Margin="20" Grid.Column="3"/>
+                <Button x:Name="NextButton" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="3" Width="60" Height="60" Margin="20,0" Click="NextButton_Click">
                     <Button.Background>
                         <ImageBrush Stretch="Fill" ImageSource="Assets/Icons/Next.png"/>
                     </Button.Background>
                 </Button>
+                <Rectangle Fill="#33FFFFFF" Margin="20" Grid.Column="4"/>
+                <Button x:Name="VolumeButton" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="4" Width="60" Height="60" Margin="20" Click="VolumeButton_Click" Holding="VolumeButton_Holding">
+                    <Button.Background>
+                        <ImageBrush Stretch="Fill" ImageSource="Assets/Icons/Volume-Mute.png"/>
+                    </Button.Background>
+                </Button>
             </Grid>
         </StackPanel>
+        <Grid x:Name="VolumePopup" Height="200" VerticalAlignment="Bottom" Background="#FF3F4650" HorizontalAlignment="Right" Margin="0,0,247,288" Width="60" Grid.Column="1">
+            <Slider x:Name="VolumeSlider" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" d:LayoutOverrides="Height, TopPosition, BottomPosition" Orientation="Vertical" HorizontalAlignment="Center" Foreground="White" Margin="0,20" ValueChanged="VolumeSlider_ValueChanged"/>
+        </Grid>
     </Grid>
 </Page>
