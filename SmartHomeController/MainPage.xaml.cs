@@ -155,6 +155,7 @@ namespace SmartHomeController
         private string CurrentTrackUri;
         private bool Paused = true;
         private bool Muted = false;
+        private int Volume = 0;
 
         private async void SonosClient_NotificationEvent(object sender, Event e)
         {
@@ -244,6 +245,36 @@ namespace SmartHomeController
                                 PlayButton.Background = background;
                                 Paused = true;
                             }
+
+                            if (e.InstanceID.Volume.Any())
+                            {
+                                var masterVolume = e.InstanceID.Volume.Where(v => v.Channel == "Master").FirstOrDefault();
+                                if (masterVolume != null)
+                                {
+                                    Volume = masterVolume.VolumeValue;
+                                    VolumeSlider.Value = masterVolume.VolumeValue;
+                                }
+                            }
+
+                            if (e.InstanceID.Mute.Any())
+                            {
+                                var masterVolume = e.InstanceID.Mute.Where(v => v.Channel == "Master").FirstOrDefault();
+                                if (masterVolume != null)
+                                {
+                                    Muted = masterVolume.MuteValue;
+                                    if (Muted)
+                                    {
+                                        ImageBrush background = new ImageBrush();
+                                        background.ImageSource = new BitmapImage(new Uri(@"ms-appx:///Assets/Icons/Volume-Mute.png", UriKind.Absolute));
+                                        MuteButton.Background = background;
+                                    } else
+                                    {
+                                        ImageBrush background = new ImageBrush();
+                                        background.ImageSource = new BitmapImage(new Uri(@"ms-appx:///Assets/Icons/Volume-On.png", UriKind.Absolute));
+                                        MuteButton.Background = background;
+                                    }
+                                }
+                            }
                         }
                     }
                     catch (Exception ex)
@@ -293,17 +324,24 @@ namespace SmartHomeController
 
         private void VolumeButton_Click(object sender, RoutedEventArgs e)
         {
-        }
-
-        private void VolumeButton_Holding(object sender, HoldingRoutedEventArgs e)
-        {
-            VolumePopup.Visibility = Visibility.Visible;
+            if (VolumePopup.Visibility == Visibility.Collapsed)
+                VolumePopup.Visibility = Visibility.Visible;
+            else
+                VolumePopup.Visibility = Visibility.Collapsed;
         }
 
         private async void VolumeSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            if (e.NewValue < 40)
+            if (e.NewValue != Volume && e.NewValue < 40)
+            {
+                Volume = (int)e.NewValue;
                 await sonosClient.SetVolume((int)e.NewValue);
+            }
+        }
+
+        private void MuteButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
