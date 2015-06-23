@@ -17,7 +17,7 @@ using Windows.UI.Xaml.Navigation;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=402347&clcid=0x409
 
-namespace SmartHomeController
+namespace HelloWorldIot
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
@@ -52,7 +52,7 @@ namespace SmartHomeController
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
-                this.DebugSettings.EnableFrameRateCounter = false;
+                this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
 

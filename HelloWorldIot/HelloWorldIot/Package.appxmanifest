@@ -7,14 +7,14 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="SmartHomeController"
+    Name="HelloWorld"
     Publisher="CN=Sebastian"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="5fa546ce-0de7-4aaf-95b5-efe75905cdda" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="8a131bc9-435c-489b-a03f-97f08c0b02ba" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>SmartHomeController</DisplayName>
+    <DisplayName>HelloWorldIot</DisplayName>
     <PublisherDisplayName>Sebastian</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -30,24 +30,19 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="SmartHomeController.App">
+      EntryPoint="HelloWorldIot.App">
       <uap:VisualElements
-        DisplayName="SmartHomeController"
+        DisplayName="HelloWorldIot"
         Square150x150Logo="Assets\Logo.png"
         Square44x44Logo="Assets\SmallLogo.png"
-        Description="SmartHomeController"
+        Description="HelloWorldIot"
         BackgroundColor="#464646">
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
-      <Extensions>
-        <uap:Extension Category="windows.appService" EntryPoint="WebServerTask.WebServerBGTask">
-          <uap:AppService Name="Ap2AppComService" />
-        </uap:Extension>
-      </Extensions>
     </Application>
   </Applications>
 
   <Capabilities>
-    <Capability Name="internetClientServer" />
+    <Capability Name="internetClient" />
   </Capabilities>
 </Package>

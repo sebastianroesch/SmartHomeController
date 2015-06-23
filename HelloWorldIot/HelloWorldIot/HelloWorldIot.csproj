@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{1502B3DA-17C6-4741-89F0-92936B84D341}</ProjectGuid>
+    <ProjectGuid>{60F3AFCA-7F6E-4755-A34A-02299BED9E95}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SmartHomeController</RootNamespace>
-    <AssemblyName>SmartHomeController</AssemblyName>
+    <RootNamespace>HelloWorldIot</RootNamespace>
+    <AssemblyName>HelloWorldIot</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10069.0</TargetPlatformVersion>
@@ -17,10 +17,9 @@
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>App2_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>HelloWorldIot_TemporaryKey.pfx</PackageCertificateKeyFile>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <ApplicationInsightsResourceId>/subscriptions/202a2a98-c595-4abf-a58b-1584d0ac7824/resourcegroups/Default-ApplicationInsights-CentralUS/providers/microsoft.insights/components/App2</ApplicationInsightsResourceId>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -95,31 +94,20 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AppSettings.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Server\HttpServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="ApplicationInsights.config" />
+    <None Include="HelloWorldIot_TemporaryKey.pfx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Icons\Music.png" />
-    <Content Include="Assets\Icons\Next.png" />
-    <Content Include="Assets\Icons\Pause.png" />
-    <Content Include="Assets\Icons\Play.png" />
-    <Content Include="Assets\Icons\Previous.png" />
-    <Content Include="Assets\Icons\Volume-Mute.png" />
-    <Content Include="Assets\Icons\Volume-On.png" />
-    <Content Include="Assets\Material-Wallpaper-2.jpg" />
-    <Content Include="Assets\wallpaper2.jpg" />
-    <Content Include="Assets\wallpaper3.jpg" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\Logo.scale-100.png" />
     <Content Include="Assets\SmallLogo.scale-100.png" />
@@ -158,12 +146,6 @@
       <HintPath>..\packages\System.Numerics.Vectors.4.0.0\lib\win8\System.Numerics.Vectors.WindowsRuntime.dll</HintPath>
       <Private>True</Private>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Sonos.Client\Sonos.Client\Sonos.Client.csproj">
-      <Project>{c6731e69-e046-48a0-ab06-54b7f4f6f9b2}</Project>
-      <Name>Sonos.Client</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
