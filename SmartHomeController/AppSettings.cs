@@ -22,7 +22,7 @@ namespace SmartHomeController
         private AppSettings()
         {
             roamingSettings = ApplicationData.Current.LocalSettings;
-            SonosIP = "192.168.178.3";
+            SonosIP = "192.168.178.14";
         }
 
         public static AppSettings Instance

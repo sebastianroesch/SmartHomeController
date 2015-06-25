@@ -68,6 +68,7 @@ namespace SmartHomeController.Server
                 if (requestMethodShort == "NOTIFY")
                 {
                     Event notification = await sonosClient.ParseNotification(body);
+                    //Propertyset set = await sonosClient.ParseZoneGroupTopologyNotification(body);
 
                     await WriteResponseAsync(requestParts[1], output);
                 }

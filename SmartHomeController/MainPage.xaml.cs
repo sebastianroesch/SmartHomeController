@@ -25,6 +25,7 @@ using System.Xml.Linq;
 using Windows.UI.Xaml.Media.Imaging;
 using System.Net;
 using Windows.Networking.Connectivity;
+using SmartHome.Client;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -37,11 +38,15 @@ namespace SmartHomeController
     {
         private HttpServer server;
         private SonosClient sonosClient;
+        private SmartHome.Client.SmartHomeClient smartHomeClient;
 
         public MainPage()
         {
             this.InitializeComponent();
 
+            SmartHomeClient.Config.CloudVersion = SmartHome.Client.Rest.CloudVersion.Staging;
+            SmartHomeClient.Config.ClientId = "smart_home_controller";
+            SmartHomeClient.Config.ClientSecret = "vZq1tXMMJUJJ1ThIOkTl+TG2YS19waSw+P6MsY#DdFCR5o7TM+wreiubT3dalSey";
         }
 
         private string GetIpAddress()
@@ -102,7 +107,14 @@ namespace SmartHomeController
 
                 server = new HttpServer(localPort, sonosClient);
 
+                //await sonosClient.SubscribeToZoneGroupTopology(localIpAddress, localPort);
+
                 var t = await sonosClient.Subscribe(localIpAddress, localPort);
+
+                //smartHomeClient = new SmartHome.Client.SmartHomeClient();
+                //SmartHome.Client.Models.SmartHomeUser user = new SmartHome.Client.Models.SmartHomeUser("mail@sebastianroesch.de");
+                //user = await smartHomeClient.RegisterUserAsync(user);
+
 
 #if DEBUG
                 //TimeSpan debugPeriod = TimeSpan.FromMilliseconds(5000);
@@ -169,9 +181,12 @@ namespace SmartHomeController
                         try
                         {
                             PositionInfoResponse positionInfo = await sonosClient.GetPositionInfo();
-                            ElapsedTrackTime = positionInfo.ElapsedTime;
-                            double percentage = ElapsedTrackTime.TotalMilliseconds / TotalTrackTime.TotalMilliseconds;
-                            TrackProgress.Value = percentage * 100;
+                            if (positionInfo != null)
+                            {
+                                ElapsedTrackTime = positionInfo.ElapsedTime;
+                                double percentage = ElapsedTrackTime.TotalMilliseconds / TotalTrackTime.TotalMilliseconds;
+                                TrackProgress.Value = percentage * 100;
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -180,18 +195,6 @@ namespace SmartHomeController
 
                         if (e != null && e.InstanceID != null)
                         {
-
-                            if (e.InstanceID.CurrentTrackURI != null)
-                            {
-                                if (CurrentTrackUri != e.InstanceID.CurrentTrackURI.Val)
-                                {
-                                    ElapsedTrackTime = new TimeSpan();
-                                    LastTimerRunTime = DateTime.UtcNow;
-                                    TrackProgress.Value = 0;
-                                }
-                                CurrentTrackUri = e.InstanceID.CurrentTrackURI.Val;
-                            }
-
                             if (e.InstanceID.CurrentTrackDuration != null)
                                 TotalTrackTime = e.InstanceID.CurrentTrackDuration.Duration;
 
@@ -200,6 +203,8 @@ namespace SmartHomeController
                             {
                                 TrackName.Text = e.InstanceID.CurrentTrackMetaData.TrackMeta.Item.Title;
                                 ArtistName.Text = e.InstanceID.CurrentTrackMetaData.TrackMeta.Item.Creator;
+
+                                var spotifyCover = await sonosClient.GetTrackInfo(e.InstanceID.CurrentTrackURI);
 
                                 var currentCoverImageUri = string.Format("http://{0}:1400{1}", AppSettings.Instance.SonosIP, WebUtility.UrlDecode(e.InstanceID.CurrentTrackMetaData.TrackMeta.Item.AlbumArtURIClean));
                                 var currentCoverImageSrc = (CoverImage.Source as BitmapImage).UriSource.ToString();
@@ -267,7 +272,8 @@ namespace SmartHomeController
                                         ImageBrush background = new ImageBrush();
                                         background.ImageSource = new BitmapImage(new Uri(@"ms-appx:///Assets/Icons/Volume-Mute.png", UriKind.Absolute));
                                         MuteButton.Background = background;
-                                    } else
+                                    }
+                                    else
                                     {
                                         ImageBrush background = new ImageBrush();
                                         background.ImageSource = new BitmapImage(new Uri(@"ms-appx:///Assets/Icons/Volume-On.png", UriKind.Absolute));
@@ -275,6 +281,32 @@ namespace SmartHomeController
                                     }
                                 }
                             }
+
+                            if (e.InstanceID.CurrentTrackURI != null)
+                            {
+                                if (CurrentTrackUri != e.InstanceID.CurrentTrackURI.Val)
+                                {
+                                    ElapsedTrackTime = new TimeSpan();
+                                    LastTimerRunTime = DateTime.UtcNow;
+                                    TrackProgress.Value = 0;
+
+
+                                    // Send context update
+                                    SmartHome.Client.Models.UserContextUpdate update = new SmartHome.Client.Models.UserContextUpdate("home.devices.soundsystems.play", "", "home.device.status");
+                                    update.Parameters.Add("DeviceId", (await sonosClient.GetDeviceDescription()).Device.UDN);
+                                    update.Parameters.Add("SongUri", e.InstanceID.CurrentTrackURI.Val);
+                                    update.Parameters.Add("Volume", Volume + "");
+
+                                    if (Paused)
+                                        update.ContextKey = "home.devices.soundsystems.play";
+                                    else
+                                        update.ContextKey = "home.devices.soundsystems.pause";
+
+                                    await smartHomeClient.UpdateContextAsync(update);
+                                }
+                                CurrentTrackUri = e.InstanceID.CurrentTrackURI.Val;
+                            }
+                            
                         }
                     }
                     catch (Exception ex)
@@ -332,6 +364,7 @@ namespace SmartHomeController
 
         private async void VolumeSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
+            //Todo: remove volume limit
             if (e.NewValue != Volume && e.NewValue < 40)
             {
                 Volume = (int)e.NewValue;
@@ -339,9 +372,17 @@ namespace SmartHomeController
             }
         }
 
-        private void MuteButton_Click(object sender, RoutedEventArgs e)
+        private async void MuteButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (Muted)
+            {
+                await sonosClient.SetMute(false);
+                Muted = false;
+            } else
+            {
+                await sonosClient.SetMute(true);
+                Muted = true;
+            }
         }
     }
 }

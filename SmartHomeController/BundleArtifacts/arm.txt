@@ -1,0 +1,2 @@
+MainPackage=D:\brightup\Visual Studio\SmartHomeController\SmartHomeController\bin\ARM\Release\SmartHomeController_1.0.3.0_ARM.appx
+SymbolPackage=D:\brightup\Visual Studio\SmartHomeController\SmartHomeController\AppPackages\SmartHomeController_1.0.3.0_Test\SmartHomeController_1.0.3.0_ARM.appxsym

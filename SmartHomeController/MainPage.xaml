@@ -65,7 +65,7 @@
                 <Rectangle Fill="#33FFFFFF" Margin="20" Grid.Column="4"/>
                 <Button x:Name="VolumeButton" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="4" Width="60" Height="60" Margin="20" Click="VolumeButton_Click">
                     <Button.Background>
-                        <ImageBrush Stretch="Fill" ImageSource="Assets/Icons/Volume-On.png"/>
+                        <ImageBrush Stretch="Fill" ImageSource="Assets/Icons/Volume-Slider.png"/>
                     </Button.Background>
                 </Button>
             </Grid>
